@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.wmsclient.model.Order;
+import com.example.wmsclient.util.Consts;
 
 @Controller
 public abstract class OrderController 
@@ -13,28 +14,24 @@ public abstract class OrderController
 	@Autowired
 	static RestTemplate restTemplate = new RestTemplate();
 	
+	static final String URL = Consts.ADDRESS + ":" + Consts.PORT;
+	
 	//WORKS
 	public static Order[] getAllOrders()
-	{
-		String url = "http://192.168.1.7:8080/api/orders/";
-		
-		return restTemplate.getForObject(url, Order[].class);
+	{	
+		return restTemplate.getForObject(URL + "/api/orders/", Order[].class);
 	}
 	
 	//WORKS
 	public static Order[] getAllOrdersByCustomerId(String customerId)
-	{
-		String url = "http://192.168.1.7:8080/api/customers/" + customerId + "/orders";
-		
-		return restTemplate.getForObject(url, Order[].class);
+	{	
+		return restTemplate.getForObject(URL + "/api/customers/" + customerId + "/orders", Order[].class);
 	}
 	
 	//WORKS
 	public static Order createOrder(String customerId, Order order)
-	{
-		String url = "http://192.168.1.7:8080/api/customers/" + customerId + "/orders";
-		
-		return restTemplate.postForObject(url, order, Order.class);
+	{	
+		return restTemplate.postForObject(URL + "/api/customers/" + customerId + "/orders", order, Order.class);
 	}
 	
 	//WORKS
@@ -42,9 +39,9 @@ public abstract class OrderController
 	{
 		String url = "http://192.168.1.7:8080/api/customers/" + customerId + "/orders/" + orderId;
 		
-		restTemplate.put(url, order);
 		
-		return new Order(orderId, order.getState(), customerId);
+		
+		return restTemplate.put(url, order);
 	}
 	
 	//WORKS

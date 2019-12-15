@@ -21,11 +21,11 @@ public class OrderProductController
 		return restTemplate.getForObject(url, OrderProduct[].class);
 	}
 	
-	public static OrderProduct addProducts(String orderId, List<OrderProduct> orderProducts)
+	public static OrderProduct[] addProducts(String orderId, List<OrderProduct> orderProducts)
 	{
 		String url = "http://192.168.1.7:8080/api/orders/" + orderId + "/order_products";
 		
-		return restTemplate.postForObject(url, orderProducts, OrderProduct.class);
+		return restTemplate.postForObject(url, orderProducts, OrderProduct[].class);
 	}
 	
 	

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.wmsclient.model.Customer;
+import com.example.wmsclient.util.Consts;
 
 @Controller
 public abstract class CustomerController 
@@ -13,38 +14,30 @@ public abstract class CustomerController
 	@Autowired
 	static RestTemplate restTemplate = new RestTemplate();
 	
-	static final String URL = "http://192.168.1.7:8080/";
+	static final String URL = Consts.ADDRESS + ":" + Consts.PORT;
 	
 	//WORKS
 	public static Customer[] getAllCustomers()
 	{
-		String url = "http://192.168.1.7:8080/api/customers/";
-		
-		return restTemplate.getForObject(url, Customer[].class);
+		return restTemplate.getForObject(URL + "/api/customers/", Customer[].class);
 	}
 	
 	//WORKS
 	public static Customer getCustomerById(String id)
 	{
-		String url = "http://192.168.1.7:8080/api/customers/" + id;
-		
-		return restTemplate.getForObject(url, Customer.class);
+		return restTemplate.getForObject(URL + "/api/customers/" + id, Customer.class);
 	}
 	
 	//WORKS
 	public static Customer createCustomer(Customer customer)
 	{
-		String url = "http://192.168.1.7:8080/api/customers/";
-		
-		return restTemplate.postForObject(url, customer, Customer.class);
+		return restTemplate.postForObject(URL + "/api/customers/", customer, Customer.class);
 	}
 	
 	//WORKS
 	public static Customer updateCustomer(String id, Customer customer)
 	{
-		String url = "http://192.168.1.7:8080/api/customers/" + id;
-		
-		restTemplate.put(url, customer);
+		restTemplate.put(URL + "/api/customers/" + id, customer);
 		
 		return customer;
 	}
@@ -52,9 +45,7 @@ public abstract class CustomerController
 	//WORKS
 	public static ResponseEntity<?> deleteCustomer(String id)
 	{
-		String url = "http://192.168.1.7:8080/api/customers/" + id;
-		
-		restTemplate.delete(url);
+		restTemplate.delete(URL + "/api/customers/" + id);
 		
 		return ResponseEntity.ok().build();
 	}

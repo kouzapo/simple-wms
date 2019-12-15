@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.wmsclient.model.Product;
+import com.example.wmsclient.util.Consts;
 
 @Controller
 public abstract class ProductController 
@@ -13,38 +14,30 @@ public abstract class ProductController
 	@Autowired
 	static RestTemplate restTemplate = new RestTemplate();
 	
-	static final String URL = "http://192.168.1.7:8080/";
+	static final String URL = Consts.ADDRESS + ":" + Consts.PORT;
 	
 	//WORKS
 	public static Product[] getAllProducts()
 	{
-		String url = "http://192.168.1.7:8080/api/products/";
-		
-		return restTemplate.getForObject(url, Product[].class);
+		return restTemplate.getForObject(URL + "/api/products/", Product[].class);
 	}
 	
 	//WORKS
 	public static Product getProductById(String id)
-	{
-		String url = "http://192.168.1.7:8080/api/products/" + id;
-		
-		return restTemplate.getForObject(url, Product.class);
+	{	
+		return restTemplate.getForObject(URL + "/api/products/" + id, Product.class);
 	}
 	
 	//WORKS
 	public static Product createProduct(Product product)
-	{
-		String url = "http://192.168.1.7:8080/api/products/";
-		
-		return restTemplate.postForObject(url, product, Product.class);
+	{	
+		return restTemplate.postForObject(URL + "/api/products/", product, Product.class);
 	}
 	
 	//WORKS
 	public static Product updateProduct(String id, Product product)
-	{
-		String url = "http://192.168.1.7:8080/api/products/" + id;
-		
-		restTemplate.put(url, product);
+	{	
+		restTemplate.put(URL + "/api/products/" + id, product);
 		
 		return product;
 	}
@@ -52,9 +45,7 @@ public abstract class ProductController
 	//WORKS
 	public static ResponseEntity<?> deleteProduct(String id)
 	{
-		String url = "http://192.168.1.7:8080/api/products/" + id;
-		
-		restTemplate.delete(url);
+		restTemplate.delete(URL + "/api/products/" + id);
 		
 		return ResponseEntity.ok().build();
 	}
